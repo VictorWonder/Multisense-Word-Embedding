@@ -9,17 +9,20 @@ hash.o: hash.c cmg.h
 vocab.o: vocab.c cmg.h
 	$(CC) -c vocab.c $(CFLAGS)
 
-kdtree.o: kdtree.c cmg.h
-	$(CC) -c kdtree.c $(CFLAGS)
+negative.o: negative.c cmg.h
+	$(CC) -c negative.c $(CFLAGS)
 
 optimizer.o: optimizer.c cmg.h
 	$(CC) -c optimizer.c $(CFLAGS)
 
+kdtree.o: kdtree.c cmg.h
+	$(CC) -c kdtree.c $(CFLAGS)
+
 main.o: main.c cmg.h
 	$(CC) -c main.c $(CFLAGS)
 
-main: hash.o vocab.o kdtree.o optimizer.o main.o
-	$(CC) main.o hash.o vocab.o kdtree.o optimizer.o -o main $(CFLAGS)
+main: hash.o vocab.o negative.o optimizer.o kdtree.o main.o
+	$(CC) main.o hash.o vocab.o negative.o optimizer.o kdtree.o -o main $(CFLAGS)
 
 clean:
 	rm -f *.o main

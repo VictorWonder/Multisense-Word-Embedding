@@ -13,31 +13,30 @@
 #include <time.h>
 #include <pthread.h>
 
-#define MAX_STRING_LENGTH 100
+#define MAX_STRING 100
 #define MAX_WORD_SIZE 100
 #define MAX_VOCAB_SIZE 3000000
 
-/* structure of vocabulary word */
-/* $begin vocab_word */
 typedef struct {
     char* word;
     int cnt;
 } vocab_word;
-/* $end vocab_word */
 
-/* structure of word vector */
-/* $begin word_vec */
 typedef struct {
     char* word;
     int* vec;
-    int dim;
 } word_vec;
-/* $end word_vec */
 
-extern int SearchHashTable(char* word);
-extern void AddToHashTable(char* word, int word_idx);
+// hash.c
+extern int SearchHashTable(char*);
+extern void AddToHashTable(char*, int);
 extern void InitHashTable();
 
-extern char* GetWord(int word_idx);
-extern void BuildVocab(FILE* corpus, char* vocab_path);
-extern void LoadVocab(char* vocab_path);
+// vocab.c
+extern int GetWordNum();
+extern char* GetWord(int);
+extern void TrainVocab(char*, char*);
+extern void LoadVocab(char*);
+
+// negative.c
+extern void InitNegative();

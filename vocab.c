@@ -12,10 +12,10 @@ static vocab_word* vocab;
 static int vocab_size = 0;
 
 static void InitVocab();
-static int AddToVocab(char* word);
-static int cmp(const void* a, const void* b);
+static int AddToVocab(char*);
+static int cmp(const void*, const void*);
 static void SortVocab();
-static void SaveVocab(char* vocab_path);
+static void SaveVocab(char*);
 
 static int cmp(const void* a, const void* b) {
     return ((vocab_word*)a)->cnt < ((vocab_word*)b)->cnt;
@@ -50,7 +50,7 @@ static void SortVocab() {
 
 static void SaveVocab(char* vocab_path) {
     /* default path */
-    if (vocab_path == NULL)
+    if (vocab_path[0] == '\0')
         vocab_path = "./vocab.txt";
 
     int i;
@@ -61,11 +61,19 @@ static void SaveVocab(char* vocab_path) {
     fclose(fout);
 }
 
-inline char* GetWord(int word_idx) {
+inline int GetWordNum() {
+    return vocab_size;
+}
+
+inline char* GetWord(register int word_idx) {
     return vocab[word_idx].word;
 }
 
-void BuildVocab(FILE* corpus, char* vocab_path) {
+void TrainVocab(char* corpus_path, char* vocab_path) {
+    if (corpus_path[0] == '\0')
+        corpus_path = "./corpus.txt";
+    FILE* corpus = fopen(corpus_path, "r");
+
     InitVocab();
     char* word = (char*)malloc(MAX_WORD_SIZE);
     int word_idx;
@@ -81,11 +89,12 @@ void BuildVocab(FILE* corpus, char* vocab_path) {
     SortVocab();
     SaveVocab(vocab_path);
     free(word);
+    fclose(corpus);
 }
 
 void LoadVocab(char* vocab_path) {
     /* default path */
-    if (vocab_path == NULL)
+    if (vocab_path[0] == '\0')
         vocab_path = "./vocab.txt";
     FILE* fin = fopen(vocab_path, "r");
     if (fin == NULL) 

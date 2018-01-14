@@ -42,8 +42,7 @@ void AddToHashTable(char* word, int word_idx) {
 }
 
 void InitHashTable() {
-    if (hash_table != NULL) 
-        free(hash_table);
-    hash_table = (int*)malloc(hash_table_size * sizeof(int));
+    if (hash_table == NULL)
+        hash_table = (int*)malloc(hash_table_size * sizeof(int));
     memset(hash_table, 0xff, hash_table_size * sizeof(int));
 }
