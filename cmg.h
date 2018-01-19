@@ -12,31 +12,45 @@
 #include <math.h>
 #include <time.h>
 #include <pthread.h>
+//#include <Python.h>
 
 #define MAX_STRING 100
 #define MAX_WORD_SIZE 100
-#define MAX_VOCAB_SIZE 3000000
+#define MAX_SENTENCE_LENGTH 10000
+
+#define NOT_IN_VOCAB -1
+#define END_OF_SENTENCE -2
 
 typedef struct {
     char* word;
     int cnt;
+    int sense_num;
 } vocab_word;
 
-typedef struct {
-    char* word;
-    int* vec;
-} word_vec;
-
-// hash.c
-extern int SearchHashTable(char*);
-extern void AddToHashTable(char*, int);
-extern void InitHashTable();
+/* Global variables */
+extern unsigned long long* random_num;
 
 // vocab.c
+extern int ReadWord(char*, FILE*);
+extern int ReadWordIndex(FILE*);
 extern int GetWordNum();
-extern char* GetWord(int);
-extern void TrainVocab(char*, char*);
-extern void LoadVocab(char*);
+extern int GetWord(char*);
+extern char* GetWordByIdx(int);
+extern int GetWordCount(char*);
+extern int GetWordCountByIdx(int);
+extern long long LearnVocab(char*, char*, int);
+extern long long LoadVocab(char*, int);
 
-// negative.c
-extern void InitNegative();
+// wordvec.c
+extern void InitWordVec(int);
+extern void InitNegative(int);
+extern void SingleSense(int, int*, int);
+extern void MultiSense(int, int*, int);
+extern void NonParametricMultiSense(int, int*, int);
+extern void SaveWordVec(char*);
+
+// helper.c
+extern unsigned long long NextRandomNum(unsigned long long);
+extern double RandomRealNum(unsigned long long);
+extern void ReportError(char*);
+extern void PrintUsage();
