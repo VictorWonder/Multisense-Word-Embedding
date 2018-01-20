@@ -13,24 +13,20 @@
 #define DEFAULT_CORPUS_PATH "./corpus.txt"
 #define DEFAULT_VECTOR_PATH "./vector.txt"
 
-/* word embedding model */
-#define SINGLE_SENSE 1
-#define MULTI_SENSE 2
-#define NP_MULTI_SENSE 3
-
 /* global parameter */
 int dim = 50;
 int window = 5;
 int min_count = 15;
 double start_alpha = 0.05;
 double alpha;
+int sense_num = 3;
 
 unsigned long long* random_num;
 
 int negative = 5;
 static double subsampling = 0.0;
 
-static int model = SINGLE_SENSE;
+int model = SINGLE_SENSE;
 
 /* file path */
 static char corpus_path[MAX_STRING];
@@ -83,6 +79,8 @@ static void Parse(int argc, char** argv) {
     if ((i = ArgPos((char*)"-negative", argc, argv)) > 0) negative = atoi(argv[i + 1]);
     if ((i = ArgPos((char*)"-model", argc, argv)) > 0) model = atoi(argv[i + 1]);
     if ((i = ArgPos((char*)"-vector", argc, argv)) > 0) strcpy(vector_path, argv[i + 1]);
+    if ((i = ArgPos((char*)"-thread", argc, argv)) > 0) thread_num = atoi(argv[i + 1]);
+    if ((i = ArgPos((char*)"-sense-num", argc, argv)) > 0) sense_num = atoi(argv[i + 1]);
 }
 
 static void GetCorpusSize() {
@@ -118,6 +116,7 @@ static void* WordEmbedding(void* id) {
             pthread_mutex_unlock(&mutex);
         }
         
+        sentence_length = 0;
         /* read a sentence */
         while (1) {
             /* read a word */
@@ -170,6 +169,8 @@ int main(int argc, char** argv) {
     /* build vocabulary */
     if (load_vocab) total_words = LoadVocab(load_vocab_path, min_count);
     else total_words = LearnVocab(corpus_path, save_vocab_path, min_count);
+
+    printf("vocabulary is built!\n");
 
     /* initialize word embedding */
     InitWordVec(dim);

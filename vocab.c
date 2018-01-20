@@ -8,7 +8,7 @@
 
 #include "cmg.h"
 
-#define MAX_VOCAB_SIZE 5000000
+#define MAX_VOCAB_SIZE 30000000
 #define MAX_HASH_TABLE_SIZE 30000000
 
 #define NOT_IN_HASH_TABLE NOT_IN_VOCAB
@@ -107,10 +107,7 @@ static int AddToVocab(char* word) {
     int len = strlen(word) + 1;
     vocab[vocab_size].word = (char*)calloc(len, sizeof(char));
     strcpy(vocab[vocab_size].word, word);
-    
-    /* initialize information of this word */
     vocab[vocab_size].cnt = 0;
-    vocab[vocab_size].sense_num = 0;
 
     /* update vocabulary size */
     vocab_size++;

@@ -21,11 +21,29 @@
 #define NOT_IN_VOCAB -1
 #define END_OF_SENTENCE -2
 
+/* word embedding model */
+#define SINGLE_SENSE 1
+#define MULTI_SENSE 2
+#define NP_MULTI_SENSE 3
+
 typedef struct {
     char* word;
     int cnt;
-    int sense_num;
 } vocab_word;
+
+typedef struct vlk {
+    double* context_vec;
+    double* sense_vec;
+    struct vlk* next;
+    int cnt;
+} vec_link;
+
+typedef struct {
+    double* global_vec;
+    vec_link* sense;
+    int sense_num;
+} word_vec_t;
+
 
 /* Global variables */
 extern unsigned long long* random_num;
