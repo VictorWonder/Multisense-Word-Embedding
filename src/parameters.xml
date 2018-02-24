@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<parameters>
+    <parameter_list name="vocabulary">
+        <!--<parameter name="learn vocab">../data/corpus/wiki.en.corpus.crop</parameter>-->
+        <parameter name="load vocab">../data/cmg/vocab.txt</parameter>
+        <parameter name="min word count">15</parameter>
+    </parameter_list>
+
+    <parameter_list name="embed">
+        <parameter name="dimension">50</parameter>
+        <parameter name="context size">5</parameter>
+        <parameter name="corpus">../data/corpus/wiki.en.corpus.crop</parameter>
+        <parameter name="embed alpha">0.001</parameter>
+        <parameter name="save vector">../data/cmg/npms-vector-3.txt</parameter>
+        <parameter name="subsample">0.25</parameter>
+        <parameter name="negative">5</parameter>
+        <parameter name="sense model">non-parametric multi-sense</parameter>
+        <parameter name="thread">20</parameter>
+        <parameter name="sense number">10</parameter>
+        <parameter name="load vector"/>
+    </parameter_list>
+
+    <parameter_list name="pseudo">
+        <parameter name="evaluation">unsupervised</parameter>
+        <parameter name="pseudo alpha">0.005</parameter>
+    </parameter_list>
+    
+    <parameter_list name="test">
+        <parameter name="wordsim353"/>
+        <parameter name="scws"/>
+        <parameter name="analogy"/>
+    </parameter_list>
+</parameters>

@@ -1,0 +1,10 @@
+parameters
+
+vocabulary parameters
+    learn vocab - 
+    load vocab - 
+    save vocab -
+    min word count - 
+
+word vector parameters
+    dimension - 
